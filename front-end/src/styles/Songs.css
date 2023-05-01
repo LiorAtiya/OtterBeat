@@ -1,0 +1,25 @@
+/* Artists List */
+.artists-list-container {
+    color: white;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+/* Songs */
+.song-container {
+    border: 2px solid black;
+    margin: 10px;
+    padding: 5px;
+
+    display: grid;
+    align-items: center;
+    grid-template-columns: 3fr 1fr 1fr;
+    column-gap: 0.5rem;
+}
+
+.song-container .icon {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
