@@ -6,7 +6,7 @@ const cors = require("cors");
 
 const songsRoute = require('./Routes/songs')
 const favoriteRoute = require('./Routes/favorite')
-
+const managementRoute = require('./Routes/management')
 const app = express();
 
 //Middleware
@@ -17,6 +17,7 @@ app.use(bodyParser.json())
 //Routes
 app.use('/api/songs', songsRoute);
 app.use('/api/favorite', favoriteRoute);
+app.use('/api/management', managementRoute);
 
 //Home page
 app.get('/', (req, res) => {
