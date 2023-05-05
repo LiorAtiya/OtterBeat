@@ -12,32 +12,29 @@ export default function Song({ song }) {
 
     useEffect(() => {
         const getResult = async () => {
-            await axios.get(`http://localhost:3010/api/favorite/specific-song/${song.id}`)
+            await axios.get(`http://localhost:3010/api/favorite/specific-song/?userID=${1}&songID=${song.id}`)
                 .then(response => {
-                    if (response.data){
-                        setIsFilled(true)
+                    if (response.data) {
+                        setIsFilled(response.data.length > 0)
                     }
-                    console.log(response.data)
                 });
         };
         getResult();
     }, []);
 
     const addToFavorite = async (id) => {
-        await axios.put(`http://localhost:3010/api/favorite`, { id: id })
+        await axios.put(`http://localhost:3010/api/favorite/add`, { userID: 1, songID: id })
             .then(response => {
                 setIsFilled(true)
-                console.log(response.data)
             })
             .catch(error => console.log(error));
     }
 
     const removeFromFavorite = async (id) => {
-        await axios.delete(`http://localhost:3010/api/favorite`,
-            { data: { id: id } })
+        await axios.delete(`http://localhost:3010/api/favorite/remove`,
+            { data: { userID: 1, songID: id } })
             .then(response => {
                 setIsFilled(false)
-                console.log(response.data)
             })
             .catch(error => console.log(error));
     }
@@ -48,7 +45,7 @@ export default function Song({ song }) {
                 ID: {song.id} <br></br>
                 Name: {song.title} <br></br>
                 Duration: {song.duration}<br></br>
-                Release: {song.releaseYear}<br></br>
+                Release: {song.release_year}<br></br>
             </div>
             <div className="play-icon">
                 {
@@ -65,7 +62,6 @@ export default function Song({ song }) {
                         :
                         <img src={OutlineHeartIcon} onClick={() => addToFavorite(song.id)} alt="Heart Icon" className='icon' />
                 }
-
             </div>
         </div>
     )

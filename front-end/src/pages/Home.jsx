@@ -3,7 +3,8 @@ import axios from "axios";
 import headerImage from '../images/header-pic.png';
 import FavoriteList from '../components/FavoriteList'
 import SearchBox from '../components/SearchBox'
-import AlbumList from '../components/ArtistsList'
+import ArtistsList from '../components/ArtistsList'
+import { Link } from 'react-router-dom';
 
 export default function Home() {
 
@@ -12,8 +13,10 @@ export default function Home() {
     useEffect(() => {
         const getResult = async () => {
             //Get all song
-            await axios.get(`http://localhost:3010/api/songs`)
-                .then(response => setData(response.data));
+            await axios.get(`http://localhost:3010/api/songs/get-artists`)
+                .then(response => {
+                    setData(response.data)
+                });
         };
         getResult();
     }, []);
@@ -24,16 +27,17 @@ export default function Home() {
 
     const [searchfield, setSearchfield] = useState("");
 
-    const filteredData = data.filter(album => {
-        return album.artist.toLowerCase().includes(searchfield.toLowerCase());
+    const filteredData = data.filter(artist => {
+        return artist.name.toLowerCase().includes(searchfield.toLowerCase());
     })
 
     return (
         <div className='app-container'>
+            <Link to="/dashboard"><button>Dashboard</button></Link>
             <img className='header-image' src={headerImage} alt="header Image" />
             <FavoriteList />
             <SearchBox searchChange={onSearchChange} />
-            <AlbumList albums={filteredData} />
+            <ArtistsList artists={filteredData} />
         </div>
     )
 }

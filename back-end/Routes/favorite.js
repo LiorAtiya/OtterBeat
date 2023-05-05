@@ -1,15 +1,13 @@
 const router = require('express').Router()
-const database = require('../database.json');
+const Postgresql = require("../Models/postgreSQL");
+// const database = require('../database.json');
+// let id_list = []
 
-let id_list = []
-
-//Get Favorite songs
-router.get("/", async (req, res) => {
+//Get Favorite songs of user
+router.get("/all-song/:id", async (req, res) => {
     try {
-        let favoriteSongs = []
-        database.forEach(artist => {
-            favoriteSongs.push(...artist.songs.filter(song => id_list.includes(song.id)))
-        });
+        const favoriteSongs = await Postgresql.getFavoriteSongsOfUser(req.params.id)
+        console.log("\u001b[35m" + "Get Favorite songs of user" + "\u001b[0m");
         res.status(200).json(favoriteSongs);
     } catch (err) {
         res.status(500).json(err)
@@ -17,29 +15,33 @@ router.get("/", async (req, res) => {
 })
 
 //Get specific favorite song 
-router.get("/specific-song/:id", async (req, res) => {
+router.get("/specific-song", async (req, res) => {
     try {
-        res.status(200).json(id_list.includes(req.params.id));
+        const exist = await Postgresql.checkExistInFavoriteSongs(req.query.userID, req.query.songID);
+        console.log("\u001b[35m" + "Get specific favorite song" + "\u001b[0m");
+        res.status(200).json(exist);
+    } catch (err) {
+        res.status(400).json(err)
+    }
+})
+
+//Add new song to favorite list of user
+router.put("/add", async (req, res) => {
+    try {
+        const result = await Postgresql.AddFavoriteSong(req.body.userID, req.body.songID);
+        console.log("\u001b[35m" + "Add new song to favorite list of user" + "\u001b[0m");
+        res.status(200).json('Add new song to favorite list of user');
     } catch (err) {
         res.status(500).json(err)
     }
 })
 
-//Add new song to favorite list
-router.put("/", async (req, res) => {
+//Remove song from favorite list of user
+router.delete("/remove", async (req, res) => {
     try {
-        id_list.push(req.body.id);
-        res.status(200).json('Added');
-    } catch (err) {
-        res.status(500).json(err)
-    }
-})
-
-//Remove song from favorite list
-router.delete("/", async (req, res) => {
-    try {
-        id_list.pop(req.body.id);
-        res.status(200).json('Removed');;
+        const result = await Postgresql.RemoveFavoriteSong(req.body.userID, req.body.songID)
+        console.log("\u001b[35m" + "Removed song from favorite list of user" + "\u001b[0m");
+        res.status(200).json('Removed song from favorite list of user');
     } catch (err) {
         res.status(500).json(err)
     }

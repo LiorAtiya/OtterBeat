@@ -11,10 +11,9 @@ export default function FavoriteList() {
     useEffect(() => {
         const getResult = async () => {
             //Get all song
-            await axios.get(`http://localhost:3010/api/favorite`)
+            await axios.get(`http://localhost:3010/api/favorite/all-song/${1}`)
                 .then(response => {
                     setData(response.data)
-                    console.log(response.data)
                 });
         };
         getResult();

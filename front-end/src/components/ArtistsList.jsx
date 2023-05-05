@@ -2,15 +2,15 @@ import React from 'react';
 import '../styles/Songs.css'
 import SongsList from './SongsList';
 
-const ArtistsList = ({ albums }) => {
+const ArtistsList = ({ artists }) => {
     return (
         <>
             {
                 <div className='artists-list-container' key={1}>
                     {
-                        albums.map((album, i) => {
+                        artists.map((artist, i) => {
                             return (
-                                <SongsList key={i} album={album} />
+                                <SongsList key={i} artist={artist} />
                             )
                         })
                     }

@@ -4,21 +4,20 @@ import Button from 'react-bootstrap/Button';
 import Song from './Song';
 import axios from "axios";
 
-const SongsList = ({ album }) => {
+const SongsList = ({ artist }) => {
 
-    // const [favorite, setFavorite] = useState([])
+    const [songsOfArtist,setSongsOfArtist] = useState([])
 
-    // useEffect(() => {
-    //     const getResult = async () => {
-    //         //Get all song
-    //         await axios.get(`http://localhost:3010/api/favorite`)
-    //             .then(response => {
-    //                 setFavorite(response.data)
-    //                 console.log(response.data)
-    //             });
-    //     };
-    //     getResult();
-    // }, []);
+    useEffect(() => {
+        const getResult = async () => {
+            //Get all songs of specific atrist
+            await axios.get(`http://localhost:3010/api/songs/get-songs-of-artist/${artist.id}`)
+                .then(response => {
+                    setSongsOfArtist(response.data)
+                });
+        };
+        getResult();
+    }, []);
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -32,7 +31,7 @@ const SongsList = ({ album }) => {
                                         <img alt='robots' src={robot.image} className="h5" />
                     </div> */}
                 <div>
-                    <h2>{album.artist}</h2>
+                    <h2>{artist.name}</h2>
                 </div>
             </div>
 
@@ -47,7 +46,7 @@ const SongsList = ({ album }) => {
                 </Modal.Header>
                 <Modal.Body>
                     {
-                        album.songs.map((song, i) => {
+                        songsOfArtist.map((song, i) => {
                             return (
                                 <Song key={i} song={song}/>
                             )
