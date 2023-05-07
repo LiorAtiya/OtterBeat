@@ -9,6 +9,14 @@ const pool = new Pool({
     port: 5432,
 });
 
+pool.connect(function (err) {
+    if (err) {
+        console.error('Error connecting to PostgreSQL database: ', err.stack);
+    } else {
+        console.log('PostgreSQL Connection Established');
+    }
+});
+
 const Postgresql = {
     getArtists: async function () {
         try {
@@ -57,12 +65,61 @@ const Postgresql = {
         try {
             const res = await pool.query(`SELECT * FROM favorite_songs
                                             WHERE user_id = ${userID} AND song_id = ${songID}`);
-                                            
+
             return res.rows;
         } catch (err) {
             throw Error;
         }
-    }
+    },
+    checkIsPremiumOfUser: async function (userID) {
+        try {
+            const res = await pool.query(`SELECT is_premium FROM users
+                                            WHERE id = ${userID} AND is_premium = true`);
+
+            return res.rows;
+        } catch (err) {
+            throw Error;
+        }
+    },
+    getTop3FavoriteSongs: async function () {
+        try {
+            const res = await pool.query(`SELECT songs.*, COUNT(*) AS count
+                                            FROM favorite_songs
+                                            JOIN songs ON favorite_songs.song_id = songs.id
+                                            GROUP BY favorite_songs.song_id, songs.id
+                                            ORDER BY count DESC
+                                            LIMIT 3;`);
+
+            return res.rows;
+        } catch (err) {
+            throw Error;
+        }
+    },
+    getTop3Artists: async function () {
+        try {
+            const res = await pool.query(``);
+            return res.rows;
+        } catch (err) {
+            throw Error;
+        }
+    },
+    getTop3SongsDecade: async function () {
+        try {
+            const res = await pool.query(``);
+            return res.rows;
+        } catch (err) {
+            throw Error;
+        }
+    },
+    getTop3LongestShortestSongs: async function () {
+        try {
+            const res = await pool.query(``);
+
+            return res.rows;
+        } catch (err) {
+            throw Error;
+        }
+    },
 }
 
 module.exports = Postgresql;

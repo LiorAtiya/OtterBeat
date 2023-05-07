@@ -1,15 +1,30 @@
 const router = require('express').Router()
 const Postgresql = require("../Models/postgreSQL");
-// const database = require('../database.json');
-// let id_list = []
+const { checkPremium } = require('../Middleware/Premium')
+const Redis = require('../Models/redis')
+const logger = require('../logger')
 
 //Get Favorite songs of user
 router.get("/all-song/:id", async (req, res) => {
     try {
-        const favoriteSongs = await Postgresql.getFavoriteSongsOfUser(req.params.id)
-        console.log("\u001b[35m" + "Get Favorite songs of user" + "\u001b[0m");
-        res.status(200).json(favoriteSongs);
+        const resultRedis = await Redis.getFavoriteSongsOfUser(req.params.id)
+        if (resultRedis) {
+            // console.log("\u001b[35m" + "Get Favorite songs of user (Redis)" + "\u001b[0m");
+            logger.info("Get Favorite songs of user (Redis)")
+
+            res.status(200).json(JSON.parse(resultRedis));
+        } else {
+            const favoriteSongs = await Postgresql.getFavoriteSongsOfUser(req.params.id)
+            await Redis.setFavoriteSongsOfUser(req.params.id, favoriteSongs)
+            
+            // console.log("\u001b[35m" + "Get Favorite songs of user (PostgreSQL)" + "\u001b[0m");
+            logger.info("Get Favorite songs of user (PostgreSQL)")
+
+            res.status(200).json(favoriteSongs);
+        }
+
     } catch (err) {
+        logger.error(err)
         res.status(500).json(err)
     }
 })
@@ -18,20 +33,29 @@ router.get("/all-song/:id", async (req, res) => {
 router.get("/specific-song", async (req, res) => {
     try {
         const exist = await Postgresql.checkExistInFavoriteSongs(req.query.userID, req.query.songID);
-        console.log("\u001b[35m" + "Get specific favorite song" + "\u001b[0m");
+        // console.log("\u001b[35m" + "Get specific favorite song" + "\u001b[0m");
+        logger.info("Get specific favorite song")
+
         res.status(200).json(exist);
     } catch (err) {
-        res.status(400).json(err)
+        logger.error(err)
+        res.status(500).json(err)
     }
 })
 
 //Add new song to favorite list of user
-router.put("/add", async (req, res) => {
+router.put("/add", checkPremium, async (req, res) => {
     try {
-        const result = await Postgresql.AddFavoriteSong(req.body.userID, req.body.songID);
-        console.log("\u001b[35m" + "Add new song to favorite list of user" + "\u001b[0m");
+        await Postgresql.AddFavoriteSong(req.body.userID, req.body.songID);
+        const favoriteSongs = await Postgresql.getFavoriteSongsOfUser(req.body.userID)
+        await Redis.setFavoriteSongsOfUser(req.body.userID + "", favoriteSongs)
+
+        // console.log("\u001b[35m" + "Added new song to favorite list of user" + "\u001b[0m");
+        logger.info("Added new song to favorite list of user")
+
         res.status(200).json('Add new song to favorite list of user');
     } catch (err) {
+        logger.error(err)
         res.status(500).json(err)
     }
 })
@@ -39,10 +63,16 @@ router.put("/add", async (req, res) => {
 //Remove song from favorite list of user
 router.delete("/remove", async (req, res) => {
     try {
-        const result = await Postgresql.RemoveFavoriteSong(req.body.userID, req.body.songID)
-        console.log("\u001b[35m" + "Removed song from favorite list of user" + "\u001b[0m");
+        await Postgresql.RemoveFavoriteSong(req.body.userID, req.body.songID);
+        const favoriteSongs = await Postgresql.getFavoriteSongsOfUser(req.body.userID)
+        await Redis.setFavoriteSongsOfUser(req.body.userID + "", favoriteSongs)
+
+        // console.log("\u001b[35m" + "Removed song from favorite list of user" + "\u001b[0m");
+        logger.info("Removed song from favorite list of user")
+
         res.status(200).json('Removed song from favorite list of user');
     } catch (err) {
+        logger.error(err)
         res.status(500).json(err)
     }
 })

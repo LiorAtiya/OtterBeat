@@ -28,7 +28,7 @@ export default function FavoriteList() {
             <div className='favorite-list-container'>
 
                 <div onClick={handleShow} className='tc bg-black dib br3 pa3 ma3 grow bw2 shadow-5 white'>
-                    <h2>❤ Favorite Songs ❤</h2>
+                    <h2>Favorite Songs ❤</h2>
                 </div>
 
                 <Modal
@@ -38,7 +38,7 @@ export default function FavoriteList() {
                     keyboard={false}
                 >
                     <Modal.Header closeButton>
-                        <h5><b>❤ Favorite Songs</b></h5>
+                        <h5><b>Favorite Songs ❤</b></h5>
                     </Modal.Header>
                     <Modal.Body>
                         {

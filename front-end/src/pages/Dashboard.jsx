@@ -41,7 +41,12 @@ export default function Dashboard() {
             <div className='line-1'>
                 <div className='favorite-songs' style={{ width: 700 }}>
                     <h5>Top 3 most favorable songs</h5>
-                    <BarChart data={favorableSongs} />
+                    {
+                        favorableSongs.length !== 0 ?
+                            <BarChart data={favorableSongs} />
+                            :
+                            null
+                    }
                 </div>
                 <div className='favorite-artists' style={{ width: 340 }}>
                     <h5>Top 3 most favorable artists</h5>

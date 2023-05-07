@@ -25,14 +25,17 @@ export default function Song({ song }) {
     const addToFavorite = async (id) => {
         await axios.put(`http://localhost:3010/api/favorite/add`, { userID: 1, songID: id })
             .then(response => {
-                setIsFilled(true)
+                if (response.data === 'LIMITED') {
+                    alert('A regular user has a limit of up to 5 songs in favorite list \nif you want unlimited you will purchase premium')
+                } else {
+                    setIsFilled(true)
+                }
             })
             .catch(error => console.log(error));
     }
 
     const removeFromFavorite = async (id) => {
-        await axios.delete(`http://localhost:3010/api/favorite/remove`,
-            { data: { userID: 1, songID: id } })
+        await axios.delete(`http://localhost:3010/api/favorite/remove`, { data: { userID: 1 , songID: id } })
             .then(response => {
                 setIsFilled(false)
             })
