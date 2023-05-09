@@ -9,13 +9,10 @@ const pool = new Pool({
     port: 5432,
 });
 
-pool.connect(function (err) {
-    if (err) {
-        console.error('Error connecting to PostgreSQL database: ', err.stack);
-    } else {
-        console.log('PostgreSQL Connection Established');
-    }
-});
+pool.connect()
+    .then(() => console.log('PostgreSQL Connection Established'))
+    .catch(err => console.error('Error connecting to PostgreSQL database: ', err.stack))
+
 
 const Postgresql = {
     getArtists: async function () {
@@ -118,6 +115,28 @@ const Postgresql = {
             return res.rows;
         } catch (err) {
             throw Error;
+        }
+    },
+    existEmail: async function (email) {
+        try {
+            const res = await pool.query(`SELECT * FROM users WHERE email = '${email}'`);
+
+            return res.rows[0];
+        } catch (err) {
+            console.log(err)
+            // throw Error;
+        }
+    },
+    register: async function (name, email, encrypedPassword, is_premium) {
+        try {
+            const lastID = await pool.query(`SELECT * FROM users ORDER BY id DESC LIMIT 1`);
+        
+            const res = await pool.query(`INSERT INTO users (id, name, email, password, is_premium) 
+                                        VALUES (${lastID.rows[0].id + 1}, '${name}','${email}', '${encrypedPassword}', ${is_premium})`);
+
+            return res.rows[0];
+        } catch (err) {
+            console.log(err)
         }
     },
 }

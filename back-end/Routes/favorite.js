@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const Postgresql = require("../Models/postgreSQL");
 const { checkPremium } = require('../Middleware/Premium')
+const { authenticateToken } = require('../Middleware/Auth')
 const Redis = require('../Models/redis')
 const logger = require('../logger')
 
@@ -11,21 +12,18 @@ router.get("/all-song/:id", async (req, res) => {
         if (resultRedis) {
             // console.log("\u001b[35m" + "Get Favorite songs of user (Redis)" + "\u001b[0m");
             logger.info("Get Favorite songs of user (Redis)")
-
-            res.status(200).json(JSON.parse(resultRedis));
-        } else {
-            const favoriteSongs = await Postgresql.getFavoriteSongsOfUser(req.params.id)
-            await Redis.setFavoriteSongsOfUser(req.params.id, favoriteSongs)
-            
-            // console.log("\u001b[35m" + "Get Favorite songs of user (PostgreSQL)" + "\u001b[0m");
-            logger.info("Get Favorite songs of user (PostgreSQL)")
-
-            res.status(200).json(favoriteSongs);
+            return res.status(200).json(JSON.parse(resultRedis));
         }
 
+        const favoriteSongs = await Postgresql.getFavoriteSongsOfUser(req.params.id)
+        await Redis.setFavoriteSongsOfUser(req.params.id, favoriteSongs)
+        // console.log("\u001b[35m" + "Get Favorite songs of user (PostgreSQL)" + "\u001b[0m");
+        logger.info("Get Favorite songs of user (PostgreSQL)")
+        return res.status(200).json(favoriteSongs);
+
     } catch (err) {
-        logger.error(err)
-        res.status(500).json(err)
+        logger.error(err);
+        return res.sendStatus(500)
     }
 })
 
