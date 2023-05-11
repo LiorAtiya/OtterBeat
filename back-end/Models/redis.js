@@ -1,5 +1,13 @@
 const redis = require('redis');
+
+//Connect to local Redis
 const client = redis.createClient();
+
+// //Connect to Docker Redis
+// const client = redis.createClient({
+//     host: 'redis',
+//     port: 6380,
+// });
 
 client.connect()
 

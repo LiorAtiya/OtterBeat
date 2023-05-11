@@ -22,13 +22,7 @@ app.use('/api/auth', authRoute);
 
 //Home page
 app.get('/', (req, res) => {
-    try {
-        logger.info("Hello From server of OtterBeat")
-        res.status(200).send('Hello From server of OtterBeat')
-    } catch (err) {
-        logger.error(err)
-        res.status(500).json(err)
-    }
+    res.status(200).send('Hello From server of OtterBeat')
 })
 
 //Connection to server

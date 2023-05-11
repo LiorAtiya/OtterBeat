@@ -1,0 +1,37 @@
+# Start Run: docker-compose up -d
+# Rebuild: docker-compose up --build -d
+
+version: "3"
+services:
+  redis:
+    image: redis
+    ports:
+      - '6380:6379'
+    networks:
+      - webnet
+  db:
+    image: postgres
+    ports:
+      - '4321:5432'
+    environment:
+      POSTGRES_PASSWORD: '4007'
+      POSTGRES_USER: 'docker'
+      POSTGRES_DB: 'otterbeat'
+    networks:
+      - webnet
+  web:
+    build: .
+    image: otterbeat-server
+    ports:
+      - "3010:3010"
+    networks:
+      - webnet
+    depends_on:
+      - db
+      - redis
+    environment:
+      DB_HOST: db
+      REDIS_HOST: redis
+    command: ["./wait-for-it.sh", "db:5432", "--", "node", "server.js"]
+networks:
+  webnet:

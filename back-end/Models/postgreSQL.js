@@ -9,6 +9,15 @@ const pool = new Pool({
     port: 5432,
 });
 
+// //Connect to Docker postgreSQL
+// const pool = new Pool({
+//     user: 'docker',
+//     host: 'db',
+//     database: 'otterbeat',
+//     password: '4007',
+//     port: 4321,
+// });
+
 pool.connect()
     .then(() => console.log('PostgreSQL Connection Established'))
     .catch(err => console.error('Error connecting to PostgreSQL database: ', err.stack))
