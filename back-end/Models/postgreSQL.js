@@ -1,22 +1,22 @@
 const { Pool } = require('pg');
 
-//Connect to local postgreSQL
+// //Connect to local postgreSQL
+// const pool = new Pool({
+//     user: 'postgres',
+//     host: 'localhost',
+//     database: 'otterbeat',
+//     password: '4007',
+//     port: 5432,
+// });
+
+//Connect to Docker postgreSQL
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
+    user: 'docker',
+    host: 'db',
     database: 'otterbeat',
     password: '4007',
     port: 5432,
 });
-
-// //Connect to Docker postgreSQL
-// const pool = new Pool({
-//     user: 'docker',
-//     host: 'db',
-//     database: 'otterbeat',
-//     password: '4007',
-//     port: 4321,
-// });
 
 pool.connect()
     .then(() => console.log('PostgreSQL Connection Established'))

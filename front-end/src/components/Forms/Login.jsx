@@ -38,6 +38,7 @@ export default function Login() {
                         localStorage.setItem('user-info', JSON.stringify(response.data));
                         
                         alert('Login was successful')
+                        
                         navigate("/");
                         window.location.reload();
                     })

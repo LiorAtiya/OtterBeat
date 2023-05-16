@@ -12,6 +12,7 @@ const App = () => {
 
         <div className="flex h-screen px-6 overflow-y-scroll hide-scrollbar xl:flex-row">
           <div className="flex-1 pb-40 h-fit">
+            
             <Routes>
               <Route path="/" element={<ArtistsList />} />
               <Route path="/:id/:name/songs" element={<SongsList />} />
