@@ -1,14 +1,21 @@
 # Start Run: docker-compose up -d
 # Rebuild: docker-compose up --build -d
 
+# Connect to Postgres: docker exec -it back-end-db-1 psql -U docker otterbeat
+# Connect to Redis: docker exec -it back-end-redis-1 redis-cli
+# Run Server: curl localhost:3010/
+
 version: "3"
 services:
   redis:
     image: redis
-    ports:
-      - '6380:6379'
-    networks:
-      - webnet
+    # ports:
+    #   - '6380:6379'
+    network_mode: bridge
+    # networks:
+    #   - webnet
+    expose:
+      - 6379
   db:
     image: postgres
     ports:
@@ -21,7 +28,7 @@ services:
       - webnet
   web:
     build: .
-    image: otterbeat-server
+    # image: otterbeat-server
     ports:
       - "3010:3010"
     networks:
@@ -29,9 +36,18 @@ services:
     depends_on:
       - db
       - redis
+    links:
+      - redis
     environment:
       DB_HOST: db
       REDIS_HOST: redis
-    command: ["./wait-for-it.sh", "db:5432", "--", "node", "server.js"]
+    command:
+      [
+        "./wait-for-it.sh",
+        "db:5432",
+        "--",
+        "node",
+        "server.js"
+      ]
 networks:
   webnet:

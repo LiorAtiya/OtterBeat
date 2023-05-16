@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import '../styles/Dashboard.css'
 
-import BarChart from '../components/BarChart';
-import DoughnutChart from '../components/DoughnutChart';
-import LineChart from '../components/LineChart';
-import PieChart from '../components/PieChart';
+import BarChart from '../components/Chart/BarChart';
+import DoughnutChart from '../components/Chart/DoughnutChart';
+import LineChart from '../components/Chart/LineChart';
+import PieChart from '../components/Chart/PieChart';
 import axios from "axios";
 
 export default function Dashboard() {
@@ -36,10 +35,10 @@ export default function Dashboard() {
     }, []);
 
     return (
-        <div className='dashboard-container'>
-            <h1>OtterBeat’s management</h1>
-            <div className='line-1'>
-                <div className='favorite-songs' style={{ width: 700 }}>
+        <div className='text-white '>
+            <h1 className='text-3xl font-bold text-center mb-7 mt-7'>Top Charts of OtterBeat</h1>
+            <div className='flex items-center justify-center mx-auto text-center mb-7'>
+                <div className='font-bold' style={{ width: 700 }}>
                     <h5>Top 3 most favorable songs</h5>
                     {
                         favorableSongs.length !== 0 ?
@@ -48,17 +47,17 @@ export default function Dashboard() {
                             null
                     }
                 </div>
-                <div className='favorite-artists' style={{ width: 340 }}>
+                <div className='font-bold' style={{ width: 340 }}>
                     <h5>Top 3 most favorable artists</h5>
                     <DoughnutChart data={favorableArtists} />
                 </div>
             </div>
-            <div className='line-2'>
-                <div className='favorable-decade' style={{ width: 350 }}>
+            <div className='flex items-center justify-center mx-auto text-center'>
+                <div className='font-bold' style={{ width: 350 }}>
                     <h5>Top 3 most favorable songs from each decade</h5>
                     <PieChart data={favorableSongsDecade} />
                 </div>
-                <div className='longest-songs' style={{ width: 700 }}>
+                <div className='font-bold' style={{ width: 700 }}>
                     <h5>Top 3 from shortest to longest songs in the system</h5>
                     {
                         longestShortestSongs.length !== 0 ?

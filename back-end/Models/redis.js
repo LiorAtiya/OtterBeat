@@ -6,7 +6,7 @@ const client = redis.createClient();
 // //Connect to Docker Redis
 // const client = redis.createClient({
 //     host: 'redis',
-//     port: 6380,
+//     port: 6379,
 // });
 
 client.connect()

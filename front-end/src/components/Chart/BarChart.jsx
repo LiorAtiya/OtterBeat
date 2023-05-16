@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Line } from 'react-chartjs-2'
+import { Bar } from 'react-chartjs-2'
 import { Chart as chartjs } from 'chart.js/auto'
 
-export default function LineChart({ data }) {
+export default function BarChart({ data }) {
 
   const [chartData, setChartData] = useState([])
 
@@ -13,17 +13,18 @@ export default function LineChart({ data }) {
         labels: data?.map(song => song.title),
         datasets: [
           {
-            label: 'Duration',
-            data: data?.map(song => song.duration),
+            label: 'Number',
+            data: [65, 59, 80],
             fill: false,
-            backgroundColor: ['rgba(75,192,192,0.2)', 'rgba(75,192,75,0.2)', 'rgba(192,75,75,0.2)'],
-            borderColor: 'rgba(75,192,192,1)',
-            borderWidth: 1,
+            backgroundColor: ['rgba(124,252,0)', 'rgba(0,191,255)', 'rgba(220,20,60)'],
+            borderColor: 'rgba(255,255,255)',
+            borderWidth: 2,
           },
-        ]
+        ],
       }
+
       setChartData(setData)
-      
+
     };
     getResult();
   }, []);
@@ -32,6 +33,18 @@ export default function LineChart({ data }) {
     plugins: {
       legend: {
         display: false // This will remove the label
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: 'white',
+        }
+      },
+      y: {
+        ticks: {
+          color: 'white',
+        }
       }
     }
   };
@@ -40,7 +53,7 @@ export default function LineChart({ data }) {
     <>
       {
         chartData.length !== 0 ?
-          <Line data={chartData} options={options} />
+          <Bar data={chartData} options={options} />
           :
           null
       }

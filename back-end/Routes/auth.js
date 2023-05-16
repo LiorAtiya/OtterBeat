@@ -12,7 +12,7 @@ router.post('/register', async (req, res) => {
         const { name, email, is_premium, password } = req.body;
 
         //Encrypt password
-        const encrypedPassword = await bcrypt.hash(password+'', 10);
+        const encrypedPassword = await bcrypt.hash(password + '', 10);
 
         //checks if the user already exist in database
         const user = await Postgresql.existEmail(email)
@@ -37,15 +37,18 @@ router.post('/login', async (req, res) => {
 
         const { email, password } = req.body;
 
+        console.log(password)
+        
         //checks if the user exist in database
         const user = await Postgresql.existEmail(email)
-        if (user.length === 0) {
+        console.log(user)
+        if (!user) {
             return res.status(200).json("Email Not Found");
         }
 
         // //Checks if the password match to encrypt password
-        // // if (password + '' === user.password) {
-        if (await bcrypt.compare(password+'', user.password)) {
+        // if (password + '' === user.password) {
+        if (await bcrypt.compare(password + '', user.password)) {
 
             const accessToken = jwt.sign({ user: user }, process.env.ACCESS_TOKEN_SECRET);
             return res.status(200).json({ accessToken: accessToken })
@@ -63,8 +66,9 @@ router.post('/login', async (req, res) => {
 router.get('/info-user', authenticateToken, async (req, res) => {
 
     try {
-        console.log("user details ", req.user)
-        return res.status(200).json(req.user)
+        const { password, ...userDetails } = req.user.user;
+        console.log(userDetails)
+        return res.status(200).json(userDetails)
 
     } catch (err) {
         return res.status(500).send(err)
