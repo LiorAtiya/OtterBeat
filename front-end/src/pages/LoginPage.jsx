@@ -4,7 +4,7 @@ import { RiLoginBoxFill } from 'react-icons/ri';
 
 export default function LoginPage(){
     return(
-        <div className="w-1/3 mx-auto mt-10 backdrop-blur-sm animate-slideup">
+        <div className="w-2/3 mx-auto mt-10 sm:w-2/3 md:w-2/3 lg:w-1/2 xl:w-1/3 backdrop-blur-sm animate-slideup">
              <Header
                 heading="Login to your account"
                 paragraph="Don't have an account yet? "
