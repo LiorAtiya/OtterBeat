@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { loginFields } from "../../assets/formFields";
 import FormAction from "./FormAction";
 import FormExtra from "./FormExtra";
@@ -13,6 +13,16 @@ fields.forEach(field => fieldsState[field.id] = '');
 export default function Login() {
     const [loginState, setLoginState] = useState(fieldsState);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const getResult = async () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                navigate('/')
+            }
+        };
+        getResult();
+    }, []);
 
     const handleChange = (e) => {
         setLoginState({ ...loginState, [e.target.id]: e.target.value })
@@ -36,9 +46,10 @@ export default function Login() {
                 axios.get(`http://localhost:3010/api/auth/info-user`, { headers: { Authorization: token } })
                     .then(response => {
                         localStorage.setItem('user-info', JSON.stringify(response.data));
-                        
+
                         alert('Login was successful')
-                        
+
+
                         navigate("/");
                         window.location.reload();
                     })

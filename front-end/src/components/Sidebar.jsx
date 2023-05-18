@@ -21,6 +21,7 @@ const NavLinks = ({ handleClick }) => {
     const result = confirm('Are you sure you want to sign out?');
     if (result) {
       localStorage.removeItem('user-info');
+      localStorage.removeItem('token');
       navigate("/");
       window.location.reload();
     }

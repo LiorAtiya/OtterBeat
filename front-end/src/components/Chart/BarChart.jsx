@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, FC } from 'react'
 import { Bar } from 'react-chartjs-2'
 import { Chart as chartjs } from 'chart.js/auto'
 
-export default function BarChart({ data }) {
+// const ArtistCard: FC<{ artist: IArtist }> = ({ artist: { id, name }}) => {
+const BarChart = ({ data }) => {
 
   const [chartData, setChartData] = useState([])
 
@@ -30,6 +31,8 @@ export default function BarChart({ data }) {
   }, []);
 
   const options = {
+    // responsive: true,
+    // maintainAspectRatio: false,
     plugins: {
       legend: {
         display: false // This will remove the label
@@ -60,3 +63,6 @@ export default function BarChart({ data }) {
     </>
   )
 }
+
+
+export default BarChart;

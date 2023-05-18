@@ -30,13 +30,13 @@ export default function PieChart({ data }) {
   }, []);
 
   const options = {
-    elements: {
-      arc: {
-        // backgroundColor: 'white',
-        // hoverBackgroundColor: 'white'
-      }
-    }
-
+    plugins: {
+      legend: {
+        labels: {
+          color: 'white', // Set the color of the legend text
+        },
+      },
+    },
   };
 
   return (

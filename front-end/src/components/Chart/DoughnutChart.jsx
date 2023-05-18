@@ -30,20 +30,20 @@ export default function DoughnutChart({ data }) {
   }, []);
 
   const options = {
-    elements: {
-      bar: {
-        backgroundColor: 'white',
-        borderColor: 'white',
-        borderWidth: 2
-      }
-    }
+    plugins: {
+      legend: {
+        labels: {
+          color: 'white', // Set the color of the legend text
+        },
+      },
+    },
   };
 
   return (
     <>
       {
         chartData.length !== 0 ?
-          <Doughnut data={chartData} options={options}/>
+          <Doughnut data={chartData} options={options} />
           :
           null
       }

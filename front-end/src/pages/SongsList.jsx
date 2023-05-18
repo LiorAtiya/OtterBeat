@@ -32,10 +32,10 @@ const SongsList = () => {
     return (
         <>
             <Searchbar searchChange={onSearchChange} name={'song'} />
-            
-            <h2 className="mb-4 text-3xl font-bold text-left text-white">{name}</h2>
+
+            <h2 className="mb-4 text-3xl font-bold text-left text-white">Songs Of {name}</h2>
             {
-                filteredData    ?.map((song, i) => {
+                filteredData?.map((song, i) => {
                     return <SongCard key={i} song={song} />
                 })
             }

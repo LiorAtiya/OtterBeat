@@ -2,6 +2,7 @@ const router = require('express').Router()
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs");
 const Postgresql = require('../Models/postgreSQL');
+const logger = require('../logger')
 
 const { authenticateToken } = require('../Middleware/Auth')
 
@@ -22,10 +23,11 @@ router.post('/register', async (req, res) => {
         }
         //create new user
         await Postgresql.register(name, email, encrypedPassword, is_premium);
+        logger.info("New User Registered")
 
         res.status(200).json('New User Registered')
     } catch (error) {
-        console.log(error)
+        logger.error(error)
         res.status(500).send(error)
     }
 })
@@ -51,13 +53,14 @@ router.post('/login', async (req, res) => {
         if (await bcrypt.compare(password + '', user.password)) {
 
             const accessToken = jwt.sign({ user: user }, process.env.ACCESS_TOKEN_SECRET);
+            logger.info("Login was successful")
             return res.status(200).json({ accessToken: accessToken })
         }
 
         return res.status(200).json("Invalid Password")
 
     } catch (err) {
-        console.log(err)
+        logger.error(error)
         return res.status(500).send(err)
     }
 })

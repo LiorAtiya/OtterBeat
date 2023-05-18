@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./*"],
+      "@assets/*": ["src/assets/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx","src/custom.d.ts", "src/components/Chart/BarChart.tsx", "src/components/Chart/DoughnutChart.jsx", "src/components/Chart/LineChart.jsx", "src/components/Chart/PieChart.jsx", "src/components/Forms/Register.jsx"],
+  "exclude": ["node_modules"]
+}

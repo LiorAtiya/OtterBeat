@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import loader from '../assets/loader.svg'
-import HeartIcon from '../assets/heart.svg'
-import OutlineHeartIcon from '../assets/outline-heart.svg'
-import PlayIcon from '../assets/play.svg'
-import PauseIcon from '../assets/pause.svg'
+import HeartIcon from '../assets/images/icons/heart.svg'
+import OutlineHeartIcon from '../assets/images/icons/outline-heart.svg'
+import PlayIcon from '../assets/images/icons/play.svg'
+import PauseIcon from '../assets/images/icons/pause.svg'
 import axios from "axios";
 
 const SongCard = ({ song }) => {
