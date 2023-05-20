@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { signupFields } from "../../assets/formFields"
 import FormAction from "./FormAction";
 import Input from "./Input";
-import axios from 'axios';
+// import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import Routes from '../../api/routes'
 
 const fields = signupFields;
 let fieldsState = {};
@@ -46,7 +47,8 @@ export default function Register() {
       is_premium: isChecked,
     }
 
-    await axios.post(`http://localhost:3010/api/auth/register`, userInfo)
+    // await axios.post(`http://localhost:3010/api/auth/register`, userInfo)
+    Routes.register(userInfo)
       .then(response => {
         alert('Register was successful')
         navigate("/");

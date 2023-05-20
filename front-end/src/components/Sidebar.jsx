@@ -4,7 +4,6 @@ import { HiOutlineMenu } from "react-icons/hi";
 import { RiCloseLine } from "react-icons/ri";
 
 import { logo } from "../assets";
-import { links } from "../assets/constants";
 
 import { HiOutlineHome, HiOutlineUserGroup } from 'react-icons/hi';
 import { AiOutlineHeart, AiOutlineBarChart } from 'react-icons/ai';

@@ -25,9 +25,9 @@ app.get('/', (req, res) => {
     res.status(200).send('Hello From server of OtterBeat')
 })
 
-//Connection to server
-const port = 3010;
-app.listen(port, () => {
+//Connection to server4
+const port = process.env.PORT || 5015;
+app.listen(port, '0.0.0.0', () => {
     console.log("Server Started with http://localhost:" + port + "/");
 })
 

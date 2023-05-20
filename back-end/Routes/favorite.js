@@ -61,6 +61,7 @@ router.put("/add", checkPremium, async (req, res) => {
 //Remove song from favorite list of user
 router.delete("/remove", async (req, res) => {
     try {
+        console.log(req.body.userID, req.body.songID)
         await Postgresql.RemoveFavoriteSong(req.body.userID, req.body.songID);
         const favoriteSongs = await Postgresql.getFavoriteSongsOfUser(req.body.userID)
         await Redis.setFavoriteSongsOfUser(req.body.userID + "", favoriteSongs)

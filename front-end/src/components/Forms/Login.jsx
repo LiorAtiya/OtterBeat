@@ -3,7 +3,9 @@ import { loginFields } from "../../assets/formFields";
 import FormAction from "./FormAction";
 import FormExtra from "./FormExtra";
 import Input from "./Input";
-import axios from 'axios';
+// import axios from 'axios';
+import Routes from '../../api/routes'
+
 import { useNavigate } from "react-router-dom";
 
 const fields = loginFields;
@@ -35,7 +37,8 @@ export default function Login() {
 
     //Handle Login API Integration here
     const authenticateUser = async () => {
-        await axios.post(`http://localhost:3010/api/auth/login`, { email: loginState['email-address'], password: loginState.password })
+        // await axios.post(`http://localhost:3010/api/auth/login`, { email: loginState['email-address'], password: loginState.password })
+        Routes.loginUser(loginState['email-address'], loginState.password)
             .then(response => {
                 if (response.data === 'Invalid Password' || response.data === 'Email Not Found') {
                     return alert('Invalid email or password')
@@ -43,12 +46,11 @@ export default function Login() {
                 localStorage.setItem('token', `Bearer ${response.data.accessToken}`);
                 const token = localStorage.getItem('token');
 
-                axios.get(`http://localhost:3010/api/auth/info-user`, { headers: { Authorization: token } })
+                Routes.getUserInfo(token)
                     .then(response => {
                         localStorage.setItem('user-info', JSON.stringify(response.data));
 
                         alert('Login was successful')
-
 
                         navigate("/");
                         window.location.reload();

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import Routes from '../api/routes'
 import { SongCard } from '../components';
 import { Searchbar } from '../components';
 
@@ -11,11 +11,12 @@ export default function FavoriteList() {
 
     useEffect(() => {
         const getResult = async () => {
-            //Get all song
-            await axios.get(`http://localhost:3010/api/favorite/all-song/${id}`)
+            //Get favorite songs of user
+            Routes.getFavoriteListOfUser(id)
                 .then(response => {
                     setData(response.data)
-                });
+                })
+                .catch(error => console.log(error));
         };
         getResult();
     }, []);
@@ -32,7 +33,7 @@ export default function FavoriteList() {
 
     return (
         <div>
-            <Searchbar searchChange={onSearchChange} name={'song'}/>
+            <Searchbar searchChange={onSearchChange} name={'song'} />
 
             <h2 className="mb-4 text-3xl font-bold text-left text-white">My Favorite Songs</h2>
             {

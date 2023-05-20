@@ -9,13 +9,22 @@ const { Pool } = require('pg');
 //     port: 5432,
 // });
 
-//Connect to Docker postgreSQL
+// //Connect to Docker postgreSQL
+// const pool = new Pool({
+//     user: 'docker',
+//     host: 'db',
+//     database: 'otterbeat',
+//     password: '4007',
+//     port: 5432,
+// });
+
+//Connect to Railway postgreSQL
 const pool = new Pool({
-    user: 'docker',
-    host: 'db',
-    database: 'otterbeat',
-    password: '4007',
-    port: 5432,
+    user: 'postgres',
+    host: 'containers-us-west-189.railway.app',
+    database: 'railway',
+    password: 'vsBU0tQ72CazVp2D4mQv',
+    port: 5962,
 });
 
 pool.connect()
@@ -53,6 +62,7 @@ const Postgresql = {
             const res = await pool.query(`DELETE FROM favorite_songs WHERE user_id = ${userID} AND song_id = ${songID}`);
             return res.rows;
         } catch (err) {
+            console.log(err)
             throw Error;
         }
     },
@@ -139,9 +149,9 @@ const Postgresql = {
     register: async function (name, email, encrypedPassword, is_premium) {
         try {
             const lastID = await pool.query(`SELECT * FROM users ORDER BY id DESC LIMIT 1`);
-        
+            console.log('lastID ', lastID.rowCount)
             const res = await pool.query(`INSERT INTO users (id, name, email, password, is_premium) 
-                                        VALUES (${lastID.rows[0].id + 1}, '${name}','${email}', '${encrypedPassword}', ${is_premium})`);
+                                        VALUES (${lastID.rowCount === 0 ? 0 : (lastID.rows[0].id + 1)}, '${name}','${email}', '${encrypedPassword}', ${is_premium})`);
 
             return res.rows[0];
         } catch (err) {

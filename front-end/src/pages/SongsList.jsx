@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import Routes from '../api/routes'
 import { SongCard, Searchbar } from '../components';
 
 const SongsList = () => {
@@ -11,10 +11,11 @@ const SongsList = () => {
     useEffect(() => {
         const getResult = async () => {
             //Get all songs of specific atrist
-            await axios.get(`http://localhost:3010/api/songs/get-songs-of-artist/${id}`)
+            Routes.getSongsOfArtist(id)
                 .then(response => {
                     setSongsOfArtist(response.data)
-                });
+                })
+                .catch(error => console.log(error));
         };
         getResult();
     }, []);

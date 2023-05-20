@@ -20,6 +20,6 @@
       "@assets/*": ["src/assets/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx","src/custom.d.ts", "src/components/Chart/BarChart.tsx", "src/components/Chart/DoughnutChart.jsx", "src/components/Chart/LineChart.jsx", "src/components/Chart/PieChart.jsx", "src/components/Forms/Register.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx","src/custom.d.ts", "src/components/Chart/BarChart.tsx", "src/components/Chart/DoughnutChart.jsx", "src/components/Chart/LineChart.jsx", "src/components/Chart/PieChart.jsx", "src/components/Forms/Register.jsx", "src/components/SongCard.jsx"],
   "exclude": ["node_modules"]
 }

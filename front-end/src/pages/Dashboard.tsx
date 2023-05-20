@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-
+import Routes from '../api/routes'
 import BarChart from '../components/Chart/BarChart';
 import DoughnutChart from '../components/Chart/DoughnutChart';
 import LineChart from '../components/Chart/LineChart';
 import PieChart from '../components/Chart/PieChart';
-import axios from "axios";
 
 export default function Dashboard() {
 
@@ -16,20 +15,24 @@ export default function Dashboard() {
     useEffect(() => {
         const getResult = async () => {
             //Get Top 3 most favorable songs
-            await axios.get(`http://localhost:3010/api/management/favorable-songs`)
-                .then(response => setFavorableSongs(response.data));
+            Routes.getTop3FavoriteSongs()
+                .then(response => setFavorableSongs(response.data))
+                .catch(error => console.log(error));
 
             //Get Top 3 most favorable artists
-            await axios.get(`http://localhost:3010/api/management/favorable-artists`)
-                .then(response => setFavorableArtists(response.data));
+            Routes.getTop3FavoriteArtists()
+                .then(response => setFavorableArtists(response.data))
+                .catch(error => console.log(error));
 
             //Get Top 3 most favorable songs from each decade
-            await axios.get(`http://localhost:3010/api/management/favorable-songs-decade`)
-                .then(response => setFavorableSongsDecade(response.data));
+            Routes.getTop3Decade()
+                .then(response => setFavorableSongsDecade(response.data))
+                .catch(error => console.log(error));
 
             //Get Top 3 longest and shortest songs in the system
-            await axios.get(`http://localhost:3010/api/management/longest-shortest-songs`)
-                .then(response => setLongestShortestSongs(response.data));
+            Routes.getShortestAndLongestSongs()
+                .then(response => setLongestShortestSongs(response.data))
+                .catch(error => console.log(error));
         };
         getResult();
     }, []);

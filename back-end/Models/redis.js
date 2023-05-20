@@ -1,12 +1,13 @@
 const redis = require('redis');
 
-//Connect to local Redis
+//Connect to local/Docker Redis
 const client = redis.createClient({ url: process.env.REDIS_HOST });
 
-// //Connect to Docker Redis
+// //Connect to Railway Redis
 // const client = redis.createClient({
-//     host: 'redis',
-//     port: 6379,
+//     host: 'containers-us-west-43.railway.app',
+//     password: 'JSSYi9F9Oj7MgqfDFf8E',
+//     port: 6939,
 // });
 
 client.connect()

@@ -14,7 +14,7 @@ services:
     networks:
       - default
     expose:
-      - 6379
+      - 0.0.0.0:6379
   db:
     image: postgres
     network_mode: bridge
@@ -25,7 +25,7 @@ services:
     networks:
       - default
     expose:
-      - 5432
+      - 0.0.0.0:5432
   web:
     build: .
     ports:
@@ -38,3 +38,4 @@ services:
       - redis
     environment:
       REDIS_HOST: redis://redis:6379
+      # REDIS_HOST: redis://default:JSSYi9F9Oj7MgqfDFf8E@containers-us-west-43.railway.app:6939
