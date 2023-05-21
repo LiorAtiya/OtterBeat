@@ -48,30 +48,32 @@ router.get("/favorable-songs-decade", async (req, res) => {
 //Get Top 3 longest and shortest songs in the system
 router.get("/longest-shortest-songs", async (req, res) => {
     try {
-        let allSongs = []
-        //Concat name of artist with name of song & convert duration song to number
-        database.map(album => {
-            album.songs.forEach((song) => {
-                const newObj = { ...song };
-                newObj.title = album.artist + ' - ' + song.title 
-                newObj.duration = Number(song.duration.replace(/:/g, "."));
-                allSongs.push(newObj)
-            });
-        })
-        // database.forEach(artist => allSongs.push(...artist.songs));
 
-        allSongs.sort((a, b) => {
-            return a.duration - b.duration;
-        });
+        const top3LongestAndShortest = await Postgresql.getTop3LongestShortestSongs()
+        // let allSongs = []
+        // //Concat name of artist with name of song & convert duration song to number
+        // database.map(album => {
+        //     album.songs.forEach((song) => {
+        //         const newObj = { ...song };
+        //         newObj.title = album.artist + ' - ' + song.title 
+        //         newObj.duration = Number(song.duration.replace(/:/g, "."));
+        //         allSongs.push(newObj)
+        //     });
+        // })
+        // // database.forEach(artist => allSongs.push(...artist.songs));
 
-        const firstThreeSongs = allSongs.slice(0, 3);
-        const lastThreeSongs = allSongs.slice(-3);
+        // allSongs.sort((a, b) => {
+        //     return a.duration - b.duration;
+        // });
 
-        const longest_shortest = firstThreeSongs.concat(lastThreeSongs)
+        // const firstThreeSongs = allSongs.slice(0, 3);
+        // const lastThreeSongs = allSongs.slice(-3);
+
+        // const longest_shortest = firstThreeSongs.concat(lastThreeSongs)
 
         logger.info("Get Top 3 longest and shortest songs in the system")
 
-        res.status(200).json(longest_shortest);
+        res.status(200).json(top3LongestAndShortest);
     } catch (err) {
         logger.error(err)
         res.status(400).json(err)

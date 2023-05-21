@@ -145,9 +145,10 @@ const Postgresql = {
     },
     getTop3LongestShortestSongs: async function () {
         try {
-            const res = await pool.query(``);
-
-            return res.rows;
+            const shortest = await pool.query(`SELECT * FROM songs ORDER BY duration LIMIT 3;`);
+            const longest = await pool.query(`SELECT * FROM songs ORDER BY duration DESC LIMIT 3;`);
+            const mergedArray = [...shortest.rows, ...longest.rows.reverse()];
+            return mergedArray;
         } catch (err) {
             throw Error;
         }
