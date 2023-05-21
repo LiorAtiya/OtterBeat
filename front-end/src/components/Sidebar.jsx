@@ -15,7 +15,7 @@ const NavLinks = ({ handleClick }) => {
 
   const userInfo = JSON.parse(localStorage.getItem('user-info'));
   const navigate = useNavigate();
-  
+
   const handleSignOut = () => {
     const result = confirm('Are you sure you want to sign out?');
     if (result) {
@@ -58,7 +58,7 @@ const NavLinks = ({ handleClick }) => {
       {
         userInfo ?
           <>
-            <h3 className="mt-10 text-white">Hello {userInfo.name} 🤚</h3>
+            <h3 className="mt-10 text-white"><b>Hello {userInfo.name} 🤚</b></h3>
 
             <NavLink
               className="flex flex-row items-center justify-start my-5 text-sm font-medium text-gray-500 hover:text-white"

@@ -21,6 +21,8 @@ router.get("/favorable-songs", async (req, res) => {
 router.get("/favorable-artists", async (req, res) => {
     try {
         const top3FavoriteArtists = await Postgresql.getTop3Artists()
+        console.log(top3FavoriteArtists)
+        
         logger.info("Get Top 3 most favorable artists")
 
         res.status(200).json(top3FavoriteArtists);

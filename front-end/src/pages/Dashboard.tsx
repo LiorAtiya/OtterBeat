@@ -52,7 +52,12 @@ export default function Dashboard() {
                 </div>
                 <div className='flex flex-col items-center justify-center w-full p-4 mx-auto text-center rounded-lg sm:w-1/2 md:w-2/3 lg:w-2/4 xl:w-2/5 bg-white/5 bg-opacity-80 backdrop-blur-sm md:h-72 lg:h-72 xl:h-80'>
                     <h5 className='font-bold'>Top 3 most favorable artists</h5>
-                    <DoughnutChart data={favorableArtists}/>
+                    {
+                        favorableArtists.length !== 0 ?
+                            <DoughnutChart data={favorableArtists} />
+                            :
+                            null
+                    }
                 </div>
             </div>
             <div className='flex flex-wrap justify-center gap-8 sm:justify-start mt-7'>

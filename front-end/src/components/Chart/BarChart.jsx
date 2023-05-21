@@ -15,7 +15,7 @@ const BarChart = ({ data }) => {
         datasets: [
           {
             label: 'Number',
-            data: [65, 59, 80],
+            data: data?.map(song => song.count),
             fill: false,
             backgroundColor: ['rgba(124,252,0)', 'rgba(0,191,255)', 'rgba(220,20,60)'],
             borderColor: 'rgba(255,255,255)',

@@ -5,8 +5,8 @@ class Routes extends Component {
     constructor() {
         super()
         this.state = {
-            // route: 'http://localhost:3010' //localhost
-            route: 'https://otterbeat-server-production.up.railway.app' //server
+            route: 'http://localhost:3010' //localhost
+            // route: 'https://otterbeat-server-production.up.railway.app' //server
         }
     }
 

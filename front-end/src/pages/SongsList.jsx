@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import Routes from '../api/routes'
-import { SongCard, Searchbar } from '../components';
+import { SongCard, Searchbar, Loader } from '../components';
 
 const SongsList = () => {
 
@@ -30,15 +30,33 @@ const SongsList = () => {
         return song.title.toLowerCase().includes(searchfield.toLowerCase());
     })
 
+    const [currentSongId, setCurrentSongId] = useState(-1);
+
+    const handleSongPlay = (songId) => {
+        setCurrentSongId(songId);
+    };
+
+    const handleSongStop = () => {
+        setCurrentSongId(null);
+    };
+
     return (
         <>
             <Searchbar searchChange={onSearchChange} name={'song'} />
 
             <h2 className="mb-4 text-3xl font-bold text-left text-white">Songs Of {name}</h2>
             {
-                filteredData?.map((song, i) => {
-                    return <SongCard key={i} song={song} />
-                })
+                filteredData ?
+                    filteredData.map((song, i) => {
+                        return <SongCard
+                            key={i}
+                            song={song}
+                            isPlaying={currentSongId === song.id}
+                            onPlay={handleSongPlay}
+                            onStop={handleSongStop} />
+                    })
+                    :
+                    <Loader />
             }
         </>
     );

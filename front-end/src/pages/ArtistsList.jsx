@@ -1,4 +1,4 @@
-import { ArtistCard } from "../components";
+import { ArtistCard, Loader } from "../components";
 import React, { useState, useEffect } from 'react'
 import { Searchbar } from '../components';
 import Routes from "../api/routes";
@@ -41,14 +41,17 @@ const ArtistsList = () => {
 
     <div className="flex flex-col">
       <Searchbar searchChange={onSearchChange} name="artist" />
-      
+
       <h2 className="mb-4 text-3xl font-bold text-left text-white">Artists</h2>
 
       <div className="flex flex-wrap justify-center gap-8 sm:justify-start">
         {
-          filteredData?.map((artist, i) => {
-            return <ArtistCard key={i} artist={artist} />
-          })
+          filteredData?
+            filteredData.map((artist, i) => {
+              return <ArtistCard key={i} artist={artist} />
+            })
+            :
+            <Loader />
         }
       </div>
     </div>

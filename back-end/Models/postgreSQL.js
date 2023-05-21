@@ -113,9 +113,16 @@ const Postgresql = {
     },
     getTop3Artists: async function () {
         try {
-            const res = await pool.query(``);
+            const res = await pool.query(`SELECT a.id, a.name, COUNT(*) AS favorite_count
+                                            FROM artists a
+                                            JOIN songs s ON a.id = s.artist_id
+                                            JOIN favorite_songs f ON s.id = f.song_id
+                                            GROUP BY a.id, a.name
+                                            ORDER BY favorite_count DESC
+                                            LIMIT 3;`);
             return res.rows;
         } catch (err) {
+            console.log(err)
             throw Error;
         }
     },
