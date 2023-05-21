@@ -63,7 +63,12 @@ export default function Dashboard() {
             <div className='flex flex-wrap justify-center gap-8 sm:justify-start mt-7'>
                 <div className='flex flex-col items-center justify-center w-full p-4 mx-auto text-center rounded-lg sm:w-1/2 md:w-2/3 lg:w-2/4 xl:w-2/5 bg-white/5 bg-opacity-80 backdrop-blur-sm md:h-72 lg:h-72 xl:h-80'>
                     <h5 className='font-bold'>Top 3 most favorable songs from each decade</h5>
-                    <PieChart data={favorableSongsDecade} />
+                    {
+                        favorableSongsDecade.length !== 0 ?
+                            <PieChart data={favorableSongsDecade} />
+                            :
+                            null
+                    }
                 </div>
                 <div className='flex flex-col w-full p-4 mx-auto text-center rounded-lg h-52 sm:w-1/2 md:w-2/3 lg:w-2/4 xl:w-2/5 bg-white/5 bg-opacity-80 backdrop-blur-sm md:h-62 lg:h-64 xl:h-80'>
                     <h5 className='font-bold'>Top 3 from shortest to longest songs in the system</h5>

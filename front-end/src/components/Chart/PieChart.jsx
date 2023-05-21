@@ -10,11 +10,11 @@ export default function PieChart({ data }) {
     const getResult = async () => {
 
       const setData = {
-        labels: ['January', 'February', 'March'],
+        labels: data?.map(artist => artist.decade),
         datasets: [
           {
-            label: 'Top 3',
-            data: [65, 59, 80],
+            label: 'Number',
+            data: data?.map(artist => artist.song_count),
             fill: false,
             backgroundColor: ['rgba(124,252,0)', 'rgba(0,191,255)', 'rgba(220,20,60)'],
             borderColor: 'rgba(255,255,255)',

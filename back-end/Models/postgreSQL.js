@@ -128,7 +128,16 @@ const Postgresql = {
     },
     getTop3SongsDecade: async function () {
         try {
-            const res = await pool.query(``);
+            const res = await pool.query(`SELECT 
+                                            CAST((release_year / 10) * 10 AS INT) AS decade,
+                                            COUNT(*) AS song_count
+                                        FROM 
+                                            songs
+                                        GROUP BY 
+                                            CAST((release_year / 10) * 10 AS INT)
+                                        ORDER BY 
+                                            song_count DESC
+                                        LIMIT 3;`);
             return res.rows;
         } catch (err) {
             throw Error;
