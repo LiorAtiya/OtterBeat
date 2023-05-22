@@ -38,18 +38,16 @@ router.post('/login', async (req, res) => {
     try {
 
         const { email, password } = req.body;
-
-        console.log(password)
         
         //checks if the user exist in database
         const user = await Postgresql.existEmail(email)
-        console.log(user)
+    
         if (!user) {
+            logger.error("Email Not Found")
             return res.status(200).json("Email Not Found");
         }
 
         // //Checks if the password match to encrypt password
-        // if (password + '' === user.password) {
         if (await bcrypt.compare(password + '', user.password)) {
 
             const accessToken = jwt.sign({ user: user }, process.env.ACCESS_TOKEN_SECRET);
@@ -60,7 +58,7 @@ router.post('/login', async (req, res) => {
         return res.status(200).json("Invalid Password")
 
     } catch (err) {
-        logger.error(error)
+        logger.error(err)
         return res.status(500).send(err)
     }
 })
@@ -69,11 +67,12 @@ router.post('/login', async (req, res) => {
 router.get('/info-user', authenticateToken, async (req, res) => {
 
     try {
-        const { password, ...userDetails } = req.user.user;
-        console.log(userDetails)
+        const { password, ...userDetails } = req.user;
+        logger.info(userDetails)
         return res.status(200).json(userDetails)
 
     } catch (err) {
+        logger.error(err)
         return res.status(500).send(err)
     }
 })

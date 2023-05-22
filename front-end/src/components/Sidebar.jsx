@@ -38,7 +38,7 @@ const NavLinks = ({ handleClick }) => {
 
       {
         userInfo ?
-          <NavLink to={`/my-favorite/${userInfo.id}`}
+          <NavLink to={`/my-favorite`}
             className="flex flex-row items-center justify-start my-8 text-sm font-medium text-gray-500 hover:text-white"
             onClick={() => handleClick && handleClick()}>
             <AiOutlineHeart className="w-6 h-6 mr-2" />

@@ -38,24 +38,23 @@ class Routes extends Component {
     }
 
     //Favorite List Page
-    async getFavoriteListOfUser(userID) {
-        return await axios.get(`${this.state.route}/api/favorite/all-song/${userID}`)
+    async getFavoriteListOfUser(token) {
+        return await axios.get(`${this.state.route}/api/favorite/all-song`, { headers: { Authorization: token } })
             .then(response => response);
     }
 
-    async checkSongFromFavorite(userID,songID) {
-        return await axios.get(`${this.state.route}/api/favorite/specific-song/?userID=${userID}&songID=${songID}`)
+    async checkSongFromFavorite(songID, token) {
+        return await axios.get(`${this.state.route}/api/favorite/specific-song/?songID=${songID}`, { headers: { Authorization: token } })
             .then(response => response);
     }
 
-    async addSongToFavorite(userID,songID) {
-        return await axios.put(`${this.state.route}/api/favorite/add`, { userID: userID, songID: songID })
+    async addSongToFavorite(songID, token) {
+        return await axios.put(`${this.state.route}/api/favorite/add`, { songID: songID }, { headers: { Authorization: token } })
             .then(response => response);
     }
 
-    async removeSongFromFavorite(userID,songID) {
-        console.log('check: ',userID, songID)
-        return await axios.delete(`${this.state.route}/api/favorite/remove`, { data: { userID: userID, songID: songID }})
+    async removeSongFromFavorite(songID, token) {
+        return await axios.delete(`${this.state.route}/api/favorite/remove`, { data: { songID: songID }, headers: { Authorization: token } })
             .then(response => response);
     }
 
@@ -65,8 +64,8 @@ class Routes extends Component {
             .then(response => response);
     }
 
-    //Songs List Page
-    async loginUser(email,password) {
+    //Login Page
+    async loginUser(email, password) {
         return await axios.post(`${this.state.route}/api/auth/login`, { email: email, password: password })
             .then(response => response);
     }
@@ -76,6 +75,7 @@ class Routes extends Component {
             .then(response => response);
     }
 
+    //Register Page
     async register(userInfo) {
         return await axios.post(`${this.state.route}/api/auth/register`, userInfo)
             .then(response => response);

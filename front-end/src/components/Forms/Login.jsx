@@ -37,7 +37,6 @@ export default function Login() {
 
     //Handle Login API Integration here
     const authenticateUser = async () => {
-        // await axios.post(`http://localhost:3010/api/auth/login`, { email: loginState['email-address'], password: loginState.password })
         Routes.loginUser(loginState['email-address'], loginState.password)
             .then(response => {
                 if (response.data === 'Invalid Password' || response.data === 'Email Not Found') {

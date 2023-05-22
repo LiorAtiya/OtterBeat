@@ -8,10 +8,10 @@ router.get("/get-artists", async (req, res) => {
         const result = await Postgresql.getArtists()
         logger.info("Get artists list")
 
-        res.status(200).json(result);
+        return res.status(200).json(result);
     } catch (err) {
         logger.error(err)
-        res.status(500).json(err)
+        return res.status(500).json(err)
     }
 })
 
@@ -21,10 +21,10 @@ router.get("/get-songs-of-artist/:id", async (req, res) => {
         const result = await Postgresql.getSongsOfArtist(req.params.id)
         logger.info("Get songs list of artist")
 
-        res.status(200).json(result);
+        return res.status(200).json(result);
     } catch (err) {
         logger.error(err)
-        res.status(400).json(err)
+        return res.status(400).json(err)
     }
 })
 

@@ -1,17 +1,31 @@
 const jwt = require("jsonwebtoken")
+const logger = require('../logger')
 
 async function authenticateToken(req, res, next) {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(` `)[1]
+    try {
+        const authHeader = req.headers["authorization"];
+        const token = authHeader && authHeader.split(` `)[1]
 
-    if (!token) return res.sendStatus(401);
+        if (!token) {
+            logger.error("Invalid Token");
+            return res.status(401).json(err)
+        }
 
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err,user) => {
-        if (err) return res.sendStatus(403)
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, data) => {
+            if (err) {
+                logger.error(err);
+                return res.status(403).json(err)
+            }
 
-        req.user = user;
-        next();
-    })
+            logger.info("Token Verefied")
+            req.user = data.user;
+            next();
+        })
+
+    } catch (err) {
+        logger.error(err);
+        return res.status(500).json(err)
+    }
 }
 
 module.exports = { authenticateToken };

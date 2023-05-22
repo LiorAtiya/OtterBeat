@@ -49,12 +49,12 @@ const SongCard = ({ isPlaying, song, onPlay, onStop }) => {
   ));
 
   const [isFilled, setIsFilled] = useState(false);
-  const [isPlay, setIsPlay] = useState(false);
   const userInfo = JSON.parse(localStorage.getItem('user-info'));
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    if (userInfo) {
-      Routes.checkSongFromFavorite(userInfo.id, song.id)
+    if (token) {
+      Routes.checkSongFromFavorite(song.id, token)
         .then(response => {
           if (response.data) {
             setIsFilled(response.data.length > 0)
@@ -62,13 +62,12 @@ const SongCard = ({ isPlaying, song, onPlay, onStop }) => {
         });
     }
 
-    console.log(isPlaying, onPlay, onStop, song)
     return () => { handlePause() } //unmount
   }, []);
 
-  const addToFavorite = async (id) => {
-
-    Routes.addSongToFavorite(userInfo.id, id)
+  const addToFavorite = async (songID) => {
+    
+    Routes.addSongToFavorite(songID, token)
       .then(response => {
         if (response.data === 'LIMITED') {
           alert('A regular user has a limit of up to 5 songs in favorite list \nif you want unlimited you will purchase premium')
@@ -79,9 +78,9 @@ const SongCard = ({ isPlaying, song, onPlay, onStop }) => {
       .catch(error => console.log(error));
   }
 
-  const removeFromFavorite = async (id) => {
+  const removeFromFavorite = async (songID) => {
 
-    Routes.removeSongFromFavorite(userInfo.id, id)
+    Routes.removeSongFromFavorite(songID, token)
       .then(response => {
         setIsFilled(false)
       })
@@ -90,7 +89,6 @@ const SongCard = ({ isPlaying, song, onPlay, onStop }) => {
 
   const handlePlay = () => {
     audioRef.current.play();
-    setIsPlay(true)
     if (onPlay) {
       onPlay(song.id);
     }
@@ -98,7 +96,6 @@ const SongCard = ({ isPlaying, song, onPlay, onStop }) => {
 
   const handlePause = () => {
     audioRef.current.pause();
-    setIsPlay(false)
     if (onStop) {
       onStop();
     }
@@ -128,21 +125,7 @@ const SongCard = ({ isPlaying, song, onPlay, onStop }) => {
 
       <div className="flex items-center justify-center col-span-1">
         {
-          isPlaying ?
-            <FaPause onClick={() => handlePause()} alt="Pause Icon" className="rounded-sm w-14 h-14" color='white' />
-
-            :
-            <>
-              <FaPlay onClick={() => handlePlay()} alt="Play Icon" className="rounded-sm h-14 w-14" color='white' />
-              {
-                audioRef.current.pause()
-              }
-            </>
-        }
-      </div>
-      <div className="flex items-center justify-center col-span-1">
-        {
-          userInfo ?
+          token ?
             <>
               {
                 isFilled ?
@@ -155,6 +138,22 @@ const SongCard = ({ isPlaying, song, onPlay, onStop }) => {
             null
         }
       </div>
+
+      <div className="flex items-center justify-center col-span-1">
+        {
+          isPlaying ?
+            <FaPause onClick={() => handlePause()} alt="Pause Icon" className="rounded-sm w-14 h-14" color='white' />
+
+            :
+            <>
+              <FaPlay onClick={() => handlePlay()} alt="Play Icon" className="rounded-sm h-14 w-14" color='white' />
+              {
+                audioRef.current.pause()
+              }
+            </>
+        }
+      </div>
+      
     </div>
   );
 };

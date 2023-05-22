@@ -1,22 +1,28 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Routes from '../api/routes'
 import { Loader, SongCard } from '../components';
 import { Searchbar } from '../components';
 
 export default function FavoriteList() {
 
-    const { id } = useParams();
     const [data, setData] = useState([])
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getResult = async () => {
             //Get favorite songs of user
-            Routes.getFavoriteListOfUser(id)
-                .then(response => {
-                    setData(response.data)
-                })
-                .catch(error => console.log(error));
+            const token = localStorage.getItem('token');
+            if (!token) {
+                navigate('/')
+            } else {
+                Routes.getFavoriteListOfUser(token)
+                    .then(response => {
+                        setData(response.data)
+                    })
+                    .catch(error => console.log(error));
+            }
+
         };
         getResult();
     }, []);

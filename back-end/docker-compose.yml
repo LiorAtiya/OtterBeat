@@ -2,7 +2,7 @@
 # Rebuild: docker-compose up --build -d
 
 # Connect to Postgres: docker exec -it back-end-db-1 psql -U docker otterbeat
-# Connect to Redis: docker exec -it back-end-redis-1 redis-cli
+# Connect to Redis: docker exec -it redis redis-cli
 # Run Server: curl localhost:3010/
 
 version: "3"

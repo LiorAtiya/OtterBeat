@@ -1,4 +1,5 @@
 const { Pool } = require('pg');
+const logger = require('../logger')
 
 // //Connect to local postgreSQL
 // const pool = new Pool({
@@ -9,61 +10,66 @@ const { Pool } = require('pg');
 //     port: 5432,
 // });
 
-// //Connect to Docker postgreSQL
-// const pool = new Pool({
-//     user: 'docker',
-//     host: 'db',
-//     database: 'otterbeat',
-//     password: '4007',
-//     port: 5432,
-// });
-
-//Connect to Railway postgreSQL
+//Connect to Docker postgreSQL
 const pool = new Pool({
-    user: 'postgres',
-    host: 'containers-us-west-189.railway.app',
-    database: 'railway',
-    password: 'vsBU0tQ72CazVp2D4mQv',
-    port: 5962,
+    user: 'docker',
+    host: 'db',
+    database: 'otterbeat',
+    password: '4007',
+    port: 5432,
 });
 
+// //Connect to Railway postgreSQL
+// const pool = new Pool({
+//     user: 'postgres',
+//     host: 'containers-us-west-189.railway.app',
+//     database: 'railway',
+//     password: 'vsBU0tQ72CazVp2D4mQv',
+//     port: 5962,
+// });
+
 pool.connect()
-    .then(() => console.log('PostgreSQL Connection Established'))
-    .catch(err => console.error('Error connecting to PostgreSQL database: ', err.stack))
+    .then(() => logger.info('PostgreSQL Connection Established'))
+    .catch(err => logger.error('Error connecting to PostgreSQL database: ', err.stack))
 
 
 const Postgresql = {
     getArtists: async function () {
         try {
             const res = await pool.query('SELECT * FROM artists');
+
             return res.rows;
         } catch (err) {
-            throw Error;
+            logger.error(err);
         }
     },
     getSongsOfArtist: async function (artistID) {
         try {
             const res = await pool.query(`SELECT * FROM songs WHERE artist_id = ${artistID}`);
+            logger.info('Get songs of artist from postgreSQL was successful')
+
             return res.rows;
         } catch (err) {
-            throw Error;
+            logger.error(err);
         }
     },
     AddFavoriteSong: async function (userID, songID) {
         try {
             const res = await pool.query(`INSERT INTO favorite_songs (user_id, song_id) VALUES (${userID}, ${songID})`);
+            logger.info('Added to favorite songs was successful')
+
             return res.rows;
         } catch (err) {
-            throw Error;
+            logger.error(err);
         }
     },
     RemoveFavoriteSong: async function (userID, songID) {
         try {
             const res = await pool.query(`DELETE FROM favorite_songs WHERE user_id = ${userID} AND song_id = ${songID}`);
+            
             return res.rows;
         } catch (err) {
-            console.log(err)
-            throw Error;
+            logger.error(err);
         }
     },
     getFavoriteSongsOfUser: async function (userID) {
@@ -72,9 +78,10 @@ const Postgresql = {
                                             FROM favorite_songs
                                             JOIN songs ON favorite_songs.song_id = songs.id
                                             WHERE favorite_songs.user_id = ${userID}`);
+
             return res.rows;
         } catch (err) {
-            throw Error;
+            logger.error(err);
         }
     },
     checkExistInFavoriteSongs: async function (userID, songID) {
@@ -84,7 +91,7 @@ const Postgresql = {
 
             return res.rows;
         } catch (err) {
-            throw Error;
+            logger.error(err);
         }
     },
     checkIsPremiumOfUser: async function (userID) {
@@ -94,7 +101,7 @@ const Postgresql = {
 
             return res.rows;
         } catch (err) {
-            throw Error;
+            logger.error(err);
         }
     },
     getTop3FavoriteSongs: async function () {
@@ -108,7 +115,7 @@ const Postgresql = {
 
             return res.rows;
         } catch (err) {
-            throw Error;
+            logger.error(err);
         }
     },
     getTop3Artists: async function () {
@@ -122,8 +129,7 @@ const Postgresql = {
                                             LIMIT 3;`);
             return res.rows;
         } catch (err) {
-            console.log(err)
-            throw Error;
+            logger.error(err);
         }
     },
     getTop3SongsDecade: async function () {
@@ -140,7 +146,7 @@ const Postgresql = {
                                         LIMIT 3;`);
             return res.rows;
         } catch (err) {
-            throw Error;
+            logger.error(err);
         }
     },
     getTop3LongestShortestSongs: async function () {
@@ -150,7 +156,7 @@ const Postgresql = {
             const mergedArray = [...shortest.rows, ...longest.rows.reverse()];
             return mergedArray;
         } catch (err) {
-            throw Error;
+            logger.error(err);
         }
     },
     existEmail: async function (email) {
@@ -159,8 +165,7 @@ const Postgresql = {
 
             return res.rows[0];
         } catch (err) {
-            console.log(err)
-            // throw Error;
+            logger.error(err);
         }
     },
     register: async function (name, email, encrypedPassword, is_premium) {
@@ -172,7 +177,7 @@ const Postgresql = {
 
             return res.rows[0];
         } catch (err) {
-            console.log(err)
+            logger.error(err);
         }
     },
 }
