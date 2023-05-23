@@ -1,15 +1,8 @@
-const router = require('express').Router()
 const Postgresql = require("../Models/postgreSQL");
-const { checkPremium } = require('../Middleware/Premium')
-const { authenticateToken } = require('../Middleware/Auth')
 const Redis = require('../Models/redis')
 const logger = require('../logger')
 
-//Check login
-router.use(authenticateToken)
-
-//Get Favorite songs of user
-router.get("/all-song", async (req, res) => {
+const getFavoriteSongsOfUser = async (req, res) => {
     try {
         const resultRedis = await Redis.getFavoriteSongsOfUser(req.user.id)
         if (resultRedis) {
@@ -27,12 +20,11 @@ router.get("/all-song", async (req, res) => {
         logger.error(err);
         return res.sendStatus(500).json(err)
     }
-})
+}
 
-//Get specific favorite song 
-router.get("/specific-song", async (req, res) => {
+const getSpecificSongFromFavoriteList = async (req, res) => {
     try {
-        
+
         const exist = await Postgresql.checkExistInFavoriteSongs(req.user.id, req.query.songID);
 
         logger.info("Get specific favorite song")
@@ -42,10 +34,9 @@ router.get("/specific-song", async (req, res) => {
         logger.error(err)
         return res.status(500).json(err)
     }
-})
+}
 
-//Add new song to favorite list of user
-router.put("/add", checkPremium, async (req, res) => {
+const addNewSong = async (req, res) => {
     try {
         await Postgresql.AddFavoriteSong(req.user.id, req.body.songID);
         const favoriteSongs = await Postgresql.getFavoriteSongsOfUser(req.user.id)
@@ -58,10 +49,9 @@ router.put("/add", checkPremium, async (req, res) => {
         logger.error(err)
         return res.status(500).json(err)
     }
-})
+}
 
-//Remove song from favorite list of user
-router.delete("/remove", async (req, res) => {
+const removeSong = async (req, res) => {
     try {
         await Postgresql.RemoveFavoriteSong(req.user.id, req.body.songID);
         const favoriteSongs = await Postgresql.getFavoriteSongsOfUser(req.user.id)
@@ -74,6 +64,6 @@ router.delete("/remove", async (req, res) => {
         logger.error(err)
         return res.status(500).json(err)
     }
-})
+}
 
-module.exports = router;
+module.exports = { getFavoriteSongsOfUser, getSpecificSongFromFavoriteList, addNewSong, removeSong }

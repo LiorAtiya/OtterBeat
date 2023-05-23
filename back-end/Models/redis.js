@@ -16,29 +16,17 @@ client.on('connect', async function (error) {
 
 const Redis = {
     getFavoriteSongsOfUser: async function (userID) {
-        try {
-            // Set the Redis key 'myKey' with the value of the object
-            console.log("userID ",userID + '')
-            const result = await client.get(userID + '');
-            logger.info('Get favorite songs of user from redis was successful')
-            
-            return result;
 
-        } catch (err) {
-            logger.error(err);
-            throw err
-        }
+        const result = await client.get(userID + '');
+        logger.info('Get favorite songs of user from redis was successful')
+
+        return result;
     },
     setFavoriteSongsOfUser: async function (userID, songs) {
-        try {
-            // Set the Redis key 'userID' with the value of the object
-            await client.set(userID, JSON.stringify(songs));
-            logger.info('Set favorite songs of user in redis was successful')
 
-        } catch (err) {
-            logger.error(err);
-            throw err
-        }
+        await client.set(userID, JSON.stringify(songs));
+        logger.info('Set favorite songs of user in redis was successful')
+
     },
 }
 

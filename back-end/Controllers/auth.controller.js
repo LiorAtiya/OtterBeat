@@ -1,13 +1,9 @@
-const router = require('express').Router()
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs");
 const Postgresql = require('../Models/postgreSQL');
 const logger = require('../logger')
 
-const { authenticateToken } = require('../Middleware/Auth')
-
-//Register new user
-router.post('/register', async (req, res) => {
+const register = async (req, res) => {
 
     try {
         const { name, email, is_premium, password } = req.body;
@@ -30,18 +26,16 @@ router.post('/register', async (req, res) => {
         logger.error(error)
         res.status(500).send(error)
     }
-})
+}
 
-//Login user
-router.post('/login', async (req, res) => {
+const login = async (req, res) => {
 
     try {
-
         const { email, password } = req.body;
-        
+
         //checks if the user exist in database
         const user = await Postgresql.existEmail(email)
-    
+
         if (!user) {
             logger.error("Email Not Found")
             return res.status(200).json("Email Not Found");
@@ -61,10 +55,9 @@ router.post('/login', async (req, res) => {
         logger.error(err)
         return res.status(500).send(err)
     }
-})
+}
 
-//Login user
-router.get('/info-user', authenticateToken, async (req, res) => {
+const getInfoUser = async (req, res) => {
 
     try {
         const { password, ...userDetails } = req.user;
@@ -75,6 +68,6 @@ router.get('/info-user', authenticateToken, async (req, res) => {
         logger.error(err)
         return res.status(500).send(err)
     }
-})
+}
 
-module.exports = router;
+module.exports = { register, login, getInfoUser }
