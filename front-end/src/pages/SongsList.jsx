@@ -53,7 +53,8 @@ const SongsList = () => {
                             song={song}
                             isPlaying={currentSongId === song.id}
                             onPlay={handleSongPlay}
-                            onStop={handleSongStop} />
+                            onStop={handleSongStop} 
+                            artist={name}/>
                     })
                     :
                     <Loader />

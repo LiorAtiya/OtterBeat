@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken")
-const logger = require('../logger')
+const logger = require('../Utils/logs/logger')
 
 async function authenticateToken(req, res, next) {
     try {
@@ -8,13 +8,13 @@ async function authenticateToken(req, res, next) {
 
         if (!token) {
             logger.error("Invalid Token");
-            return res.status(401).json(err)
+            return res.sendStatus(401)
         }
 
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, data) => {
             if (err) {
                 logger.error(err);
-                return res.status(403).json(err)
+                return res.sendStatus(403)
             }
 
             logger.info("Token Verefied")
@@ -24,7 +24,7 @@ async function authenticateToken(req, res, next) {
 
     } catch (err) {
         logger.error(err);
-        return res.status(500).json(err)
+        return res.status(500)
     }
 }
 

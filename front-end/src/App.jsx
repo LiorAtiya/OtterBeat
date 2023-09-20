@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 
 import { Sidebar } from './components';
-import { ArtistsList, SongsList, FavoriteList, LoginPage, RegisterPage, Dashboard } from './pages';
+import { ArtistsList, SongsList, FavoriteList, LoginPage, RegisterPage, Dashboard, Error } from './pages';
 
 const App = () => {
 
@@ -20,6 +20,7 @@ const App = () => {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/top-charts" element={<Dashboard />} />
+              <Route path="/*" element={<Error />} />
             </Routes>
           </div>
 

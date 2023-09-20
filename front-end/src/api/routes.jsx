@@ -5,8 +5,9 @@ class Routes extends Component {
     constructor() {
         super()
         this.state = {
-            route: 'http://localhost:3010' //localhost
+            // route: 'http://localhost:3010' //localhost
             // route: 'https://otterbeat-server-production.up.railway.app' //server
+            route: 'https://otterbeat-server.onrender.com' //server
         }
     }
 
@@ -60,7 +61,7 @@ class Routes extends Component {
 
     //Songs List Page
     async getSongsOfArtist(artistID) {
-        return axios.get(`${this.state.route}/api/songs/get-songs-of-artist/${artistID}`)
+        return await axios.get(`${this.state.route}/api/songs/get-songs-of-artist/${artistID}`)
             .then(response => response);
     }
 

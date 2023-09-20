@@ -1,5 +1,5 @@
 const Postgresql = require("../Models/postgreSQL");
-const logger = require('../logger')
+const logger = require('../Utils/logs/logger')
 
 const getTop3FavoriteSongs = async (req, res) => {
     try {

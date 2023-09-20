@@ -3,7 +3,6 @@ import Searchbar from './Searchbar';
 import SongCard from './SongCard';
 import ArtistCard from './ArtistCard';
 import Loader from './Loader';
-import Error from './Error';
 
 export {
   Sidebar,
@@ -11,5 +10,4 @@ export {
   Searchbar,
   ArtistCard,
   Loader,
-  Error,
 };

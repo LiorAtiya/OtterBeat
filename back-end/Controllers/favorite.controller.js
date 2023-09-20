@@ -1,12 +1,13 @@
 const Postgresql = require("../Models/postgreSQL");
 const Redis = require('../Models/redis')
-const logger = require('../logger')
+const logger = require('../Utils/logs/logger')
 
 const getFavoriteSongsOfUser = async (req, res) => {
     try {
         const resultRedis = await Redis.getFavoriteSongsOfUser(req.user.id)
         if (resultRedis) {
             logger.info("Get Favorite songs of user (Redis)")
+            console.log(resultRedis)
             return res.status(200).json(JSON.parse(resultRedis));
         }
 
@@ -18,7 +19,7 @@ const getFavoriteSongsOfUser = async (req, res) => {
 
     } catch (err) {
         logger.error(err);
-        return res.sendStatus(500).json(err)
+        return res.sendStatus(500)
     }
 }
 
@@ -32,7 +33,7 @@ const getSpecificSongFromFavoriteList = async (req, res) => {
         return res.status(200).json(exist);
     } catch (err) {
         logger.error(err)
-        return res.status(500).json(err)
+        return res.status(500)
     }
 }
 
@@ -47,7 +48,7 @@ const addNewSong = async (req, res) => {
         return res.status(200).json('Add new song to favorite list of user');
     } catch (err) {
         logger.error(err)
-        return res.status(500).json(err)
+        return res.status(500)
     }
 }
 
@@ -62,7 +63,7 @@ const removeSong = async (req, res) => {
         return res.status(200).json('Removed song from favorite list of user');
     } catch (err) {
         logger.error(err)
-        return res.status(500).json(err)
+        return res.status(500)
     }
 }
 

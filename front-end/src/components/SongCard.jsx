@@ -7,49 +7,12 @@ import { FaPlay } from "react-icons/fa";
 
 import Routes from '../api/routes'
 
-import ScienceVisions from '../assets/songs/CHVRCHES - Science Visions.mp3'
-import TheMotherWeShare from '../assets/songs/CHVRCHES - The Mother We Share.mp3'
-import WeSink from '../assets/songs/CHVRCHES - We Sink.mp3'
-import BuddyHolly from '../assets/songs/Weezer - Buddy Holly.mp3'
-import DontLetGo from '../assets/songs/Weezer - Don\'t Let Go.mp3'
-import BeverlyHills from '../assets/songs/Weezer - Beverly Hills.mp3'
-import LosingMyReligion from '../assets/songs/R.E.M. - Losing my religion.mp3'
-import EverybodyHurts from '../assets/songs/R.E.M. - Everybody Hurts.mp3'
-import OrangeCrushwith from '../assets/songs/R.E.M. - Orange Crush with.mp3'
-
 const SongCard = ({ isPlaying, song, onPlay, onStop }) => {
 
-  const audioRef = useRef(new Audio(
-    song.id === 1 ?
-      ScienceVisions
-      :
-      song.id === 2 ?
-        TheMotherWeShare
-        :
-        song.id === 3 ?
-          WeSink
-          :
-          song.id === 4 ?
-            BuddyHolly
-            :
-            song.id === 5 ?
-              DontLetGo
-              :
-              song.id === 6 ?
-                BeverlyHills
-                :
-                song.id === 7 ?
-                  LosingMyReligion
-                  :
-                  song.id === 8 ?
-                    EverybodyHurts
-                    :
-                    OrangeCrushwith
-
-  ));
+  const audioRef = useRef(new Audio(song.path));
 
   const [isFilled, setIsFilled] = useState(false);
-  const userInfo = JSON.parse(localStorage.getItem('user-info'));
+  // const userInfo = JSON.parse(localStorage.getItem('user-info'));
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -66,7 +29,7 @@ const SongCard = ({ isPlaying, song, onPlay, onStop }) => {
   }, []);
 
   const addToFavorite = async (songID) => {
-    
+
     Routes.addSongToFavorite(songID, token)
       .then(response => {
         if (response.data === 'LIMITED') {
@@ -115,12 +78,21 @@ const SongCard = ({ isPlaying, song, onPlay, onStop }) => {
         </p>
 
         <p className="mt-1 text-sm text-gray-300 truncate">
-          Duration: {String(song.duration).replace('.', ':')}
+          Artist: {song.artist_name}
+        </p>
+
+        <p className="mt-1 text-sm text-gray-300 truncate">
+          Duration: {String(song.duration).length === 1 ?
+                      String(song.duration) + ':00' :
+                      String(song.duration).length === 3 ?
+                        String(song.duration).replace('.', ':') + '0'
+                        : String(song.duration).replace('.', ':')}
         </p>
 
         <p className="mt-1 text-sm text-gray-300 truncate">
           Release: {song.release_year}
         </p>
+
       </div>
 
       <div className="flex items-center justify-center col-span-1">
@@ -153,7 +125,7 @@ const SongCard = ({ isPlaying, song, onPlay, onStop }) => {
             </>
         }
       </div>
-      
+
     </div>
   );
 };

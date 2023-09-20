@@ -4,6 +4,7 @@ import FavoriteList from './FavoriteList';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import Dashboard from './Dashboard';
+import Error from './Error';
 
 export {
   ArtistsList,
@@ -11,5 +12,6 @@ export {
   FavoriteList,
   LoginPage,
   RegisterPage,
-  Dashboard
+  Dashboard,
+  Error
 };

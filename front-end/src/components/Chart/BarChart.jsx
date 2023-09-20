@@ -11,11 +11,11 @@ const BarChart = ({ data }) => {
     const getResult = async () => {
 
       const setData = {
-        labels: data?.map(song => song.title),
+        labels: data?.map(song => song.song_title + ' - ' + song.artist_name),
         datasets: [
           {
             label: 'Number',
-            data: data?.map(song => song.count),
+            data: data?.map(song => song.song_count),
             fill: false,
             backgroundColor: ['rgba(124,252,0)', 'rgba(0,191,255)', 'rgba(220,20,60)'],
             borderColor: 'rgba(255,255,255)',

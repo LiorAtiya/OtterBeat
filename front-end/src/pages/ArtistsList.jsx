@@ -2,9 +2,6 @@ import { ArtistCard, Loader } from "../components";
 import React, { useState, useEffect } from 'react'
 import { Searchbar } from '../components';
 import Routes from "../api/routes";
-import Weezer from '../assets/images/artists/Weezer.jpg'
-import REM from '../assets/images/artists/R.E.M.jpg'
-import CHVRCHES from '../assets/images/artists/CHVRCHES.jpeg'
 
 const ArtistsList = () => {
 
@@ -15,13 +12,7 @@ const ArtistsList = () => {
       //Get all song
       Routes.getAllArtists()
         .then(response => {
-
-          const copyArray = [...response.data]
-          copyArray[0].image = CHVRCHES
-          copyArray[1].image = Weezer
-          copyArray[2].image = REM
-
-          setData(copyArray)
+          setData(response.data)
         });
     };
     getResult();
