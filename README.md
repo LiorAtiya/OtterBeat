@@ -8,6 +8,9 @@ OtterBeat is a new music platform that allows people to search for their favorit
 | ------------- | ------------- | ------------- | ------------- |
 | <p align="center"><img width="250" alt="Screen Shot 2023-01-06 at 11 00 23" src="https://github.com/LiorAtiya/OtterBeat/assets/22147116/0ace0790-4e0a-4223-bdcf-54134f37a3ee"></p>  | <p align="center"><img width="250" alt="Screen Shot 2023-01-06 at 11 00 43" src="https://github.com/LiorAtiya/OtterBeat/assets/22147116/e327ae29-00f1-4cf1-8f11-e7d58c1f87b2"></p>  | <p align="center"><img width="250" alt="Screen Shot 2023-01-06 at 11 00 23" src="https://github.com/LiorAtiya/OtterBeat/assets/22147116/a2c08d5c-170e-4379-a087-ec761a646bf8"></p>  | <p align="center"><img width="250" alt="Screen Shot 2023-01-06 at 11 00 43" src="https://github.com/LiorAtiya/OtterBeat/assets/22147116/cb27dc43-2633-4c25-a7fd-1435cf1570f5"></p>  |
 
+<h2>SQL Tables Diagrams</h2>
+<p align="center"><img width="600" alt="Screenshot 2023-10-13 at 12 37 18" src="https://github.com/LiorAtiya/OtterBeat/assets/22147116/db36aba6-ef95-4fb4-8fea-2d21c43de599"></p>
+
 <h2>Getting Started</h2>
 
 Clone the repository
